@@ -1,0 +1,40 @@
+CREATE TABLE visits (
+    AppointmentID INTEGER PRIMARY KEY,
+    PatientID INTEGER NOT NULL,
+    DoctorID INTEGER NOT NULL,
+    AppointmentDate DATE NOT NULL,
+    Department VARCHAR(50) NOT NULL,
+    Diagnosis VARCHAR(100) NOT NULL
+);
+
+-- Create Patients table
+CREATE TABLE patients (
+    PatientID INTEGER PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    DateOfBirth DATE NOT NULL,
+    Gender VARCHAR(10) NOT NULL,
+    Phone VARCHAR(15),
+    Email VARCHAR(100),
+    Address VARCHAR(200)
+);
+
+-- Create Doctors table
+CREATE TABLE doctors (
+    DoctorID INTEGER PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Specialization VARCHAR(50) NOT NULL,
+    Phone VARCHAR(15),
+    Email VARCHAR(100),
+    YearsOfExperience INTEGER
+);
+
+-- Create Procedures table
+CREATE TABLE procedures (
+    procedure_id INTEGER PRIMARY KEY,
+    visit_id INTEGER NOT NULL,
+    procedure_type VARCHAR(100) NOT NULL,
+    procedure_cost NUMERIC(10, 2) NOT NULL,
+    FOREIGN KEY (visit_id) REFERENCES visits(AppointmentID)
+);
