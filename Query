@@ -1,0 +1,57 @@
+-- 1: 
+
+-- View all visits with patient and doctor information 
+-- Show: AppointmentID, Patient Name, Doctor Name, Date, Department, Diagnosis
+
+SELECT 
+  V.AppointmentID, 
+  p.first_name || ' ' || p.last_name AS Patient_Name, 
+  d.first_name || ' '|| d.last_name AS Doctor_Name, 
+  V.appointmentdate AS Date, 
+  V.department, 
+  V.Diagnosis
+FROM visits V
+JOIN doctors d
+ON v.doctorid = d.doctor_id
+JOIN patients p 
+ON v.patientid = patient_id
+
+-- 2: 
+
+-- List all procedures with their costs
+
+-- Show: procedure type, cost, and visit_id, Order by most expensive first
+
+SELECT 
+  procedure_type, 
+  procedure_cost, 
+  visit_id 
+FROM procedures
+ORDER BY procedure_cost DESC
+
+-- 3: 
+
+-- Count total visits by department
+-- Show: Department name and total number of visits
+-- Order by highest count first
+
+SELECT 
+  department, 
+  count(*) AS total_visits 
+FROM visits
+GROUP BY department
+ORDER BY total_visits DESC
+
+-- 4: 
+
+-- Total revenue by department
+-- Show: Department, Total Visits, Total Procedures, Total Revenue, Average Procedure Cost
+-- Order by highest revenue first
+
+
+
+
+
+
+
+
