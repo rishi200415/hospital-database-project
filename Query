@@ -48,6 +48,49 @@ ORDER BY total_visits DESC
 -- Show: Department, Total Visits, Total Procedures, Total Revenue, Average Procedure Cost
 -- Order by highest revenue first
 
+SELECT v.department, 
+	COUNT(DISTINCT v.appointmentid) AS total_visits, 
+	COUNT(p.procedure_id) AS total_procedures, 
+	SUM(p.procedure_cost) AS total_revenue, 
+	ROUND(AVG(p.procedure_cost),2) AS avg_procedure_cost
+FROM visits v
+join procedures p
+ON v.appointmentid = p.visit_id
+GROUP BY v.department
+ORDER BY Total_revenue DESC
+
+-- 5: 
+
+--Top 10 most expensive procedures
+--Show: Procedure type, cost, department, diagnosis, patient name
+
+SELECT p.procedure_type, 
+  p.procedure_cost, 
+  v.department, 
+  v.diagnosis, 
+  pa.first_name || ''|| pa.last_name AS patient_name
+FROM procedures p 
+JOIN visits v
+ON p.procedure_id = v.patientid
+JOIN patients pa ON v.patientid = pa.patient_id
+LIMIT 10
+
+-- 6: 
+
+-- Patients with multiple visits
+-- Show: PatientID, Patient Name, Visit Count, First Visit Date, Last Visit Date
+-- Only show patients with MORE than 1 visit
+-- Order by most visits first
+
+SO FAR: 
+  
+SELECT pa.patient_id, pa.first_name || ' '|| pa.last_name AS patient_name, visit_count, first_visit, last_visit
+  FROM patient pa
+
+
+
+
+
 
 
 
