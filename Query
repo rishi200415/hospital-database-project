@@ -82,10 +82,34 @@ LIMIT 10
 -- Only show patients with MORE than 1 visit
 -- Order by most visits first
 
-SO FAR: 
-  
-SELECT pa.patient_id, pa.first_name || ' '|| pa.last_name AS patient_name, visit_count, first_visit, last_visit
-  FROM patient pa
+SELECT
+	pa.patient_id AS PatientID, 
+	pa.first_name || ' '|| pa.last_name AS PatientName,
+	COUNT(v.appointmentid) AS VisitCount, 
+	MIN(v.appointmentdate) AS FirstVisit, 
+	MAX(v.appointmentdate) AS LastVisit
+FROM patients pa 
+JOIN visits v ON pa.patient_id = v.patientid
+GROUP BY pa.patient_id, pa.first_name, pa.last_name
+HAVING COUNT (v.appointmentid) > 1
+ORDER BY VisitCount DESC 
+
+--7: 
+
+-- Doctors with the highest patient volume
+-- Show: Doctor Name, Department, Total Patients Seen
+-- Order by highest count first
+
+SELECT 
+    d.first_name || ' ' || d.last_name AS DoctorName,
+    v.department AS Department,
+    COUNT(DISTINCT v.patientid) AS TotalPatientsSeen
+FROM doctors d
+JOIN visits v ON d.doctor_id = v.doctorid
+GROUP BY d.first_name, d.last_name, v.department
+ORDER BY TotalPatientsSeen DESC;
+
+
 
 
 
