@@ -109,8 +109,49 @@ JOIN visits v ON d.doctor_id = v.doctorid
 GROUP BY d.first_name, d.last_name, v.department
 ORDER BY TotalPatientsSeen DESC;
 
+-- 8: 
 
+-- What are the 15 most common diagnoses in the hospital, how many times does each diagnosis occur, and which department treats each diagnosis
 
+-- Show the diagnosis name
+-- Show how many times that diagnosis appears (call this "Frequency")
+-- Show which department treats it
+-- Sort by the diagnoses that appear most often first
+-- Only show the top 15 results
+
+SELECT diagnosis, COUNT(diagnosis) AS frequency, department
+	FROM visits 
+	GROUP BY diagnosis, department
+	ORDER BY frequency DESC
+	LIMIT 15
+
+-- 9: 
+
+-- Patients who have never had a procedure
+
+-- Show: PatientID, Patient Name
+
+SELECT p.patient_id, p.first_name ||' '|| p.last_name AS fullname
+	FROM patients p 
+	LEFT JOIN visits v ON p.patient_id = v.patientid
+	left join procedures ps 
+	ON v.appointmentid = ps.visit_id
+	WHERE ps.procedure_id IS NULL
+
+-- 10: 
+
+-- Doctors generating the most revenue
+-- Show: Doctor Name, Department, Total Revenue
+-- Order by highest revenue first
+
+SELECT d.first_name || ' '|| d.last_name AS doctors_name, 
+	v.department,  SUM(p.procedure_cost) AS total_cost
+	FROM doctors d JOIN visits v
+	ON d.doctor_id = v.doctorid 
+	JOIN procedures p 
+	ON v.appointmentid = p.visit_id
+	GROUP BY doctors_name, v.department
+	ORDER BY total_cost DESC
 
 
 
